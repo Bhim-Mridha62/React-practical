@@ -1,11 +1,9 @@
 import React from 'react';
-import {createStore, applyMiddleware} from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import {Provider} from 'react-redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from 'reducers/index';
-import PropTypes from 'prop-types';
-
 let reduxStore;
 
 const configureStore = () => {
@@ -14,9 +12,6 @@ const configureStore = () => {
 
 reduxStore = configureStore();
 
-const Store = ({children}) => <Provider store={reduxStore}>{children}</Provider>;
-Store.propTypes = {
-  children: PropTypes.node,
-};
+const Store = ({ children }) => <Provider store={reduxStore}>{children}</Provider>
 
 export default Store;
