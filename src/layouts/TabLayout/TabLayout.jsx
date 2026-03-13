@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { selectBookmarkedUsers } from 'reducers/usersReducer';
 import UsersTab from 'pages/UsersTab/UsersTab';
 import BookmarkedTab from 'pages/BookmarkedTab/BookmarkedTab';
+import { UsersIcon, BookmarkIcon } from 'assets/icons';
 
 const TABS = [
-    { id: 'users', label: 'Users', icon: '👥' },
-    { id: 'bookmarked', label: 'Bookmarked', icon: '🔖' },
+    { id: 'users', label: 'Users', icon: <UsersIcon /> },
+    { id: 'bookmarked', label: 'Bookmarked', icon: <BookmarkIcon /> },
 ];
 
 const TabLayout = () => {

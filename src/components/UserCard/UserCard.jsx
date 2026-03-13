@@ -1,23 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleBookmark, selectIsBookmarked } from 'reducers/usersReducer';
-
-const BookmarkIcon = ({ filled }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill={filled ? 'currentColor' : 'none'}
-        stroke="currentColor"
-        strokeWidth={2}
-        className="w-4 h-4 shrink-0"
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-        />
-    </svg>
-);
+import { BookmarkIcon } from 'assets/icons';
 
 const UserCard = ({ user }) => {
     const dispatch = useDispatch();
@@ -41,14 +26,12 @@ const UserCard = ({ user }) => {
             </div>
             <div className="flex-1 flex flex-col gap-1 min-w-0">
                 <span className="text-base font-semibold text-slate-100 tracking-[0.01em] whitespace-nowrap overflow-hidden text-ellipsis">{user.login}</span>
-                <a
-                    href={user.html_url || `https://github.com/${user.login}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <Link
+                    to={`/user/${user.login}`}
                     className="text-[0.75rem] text-indigo-400 no-underline transition-colors duration-200 hover:text-indigo-300 hover:underline"
                 >
                     View Profile
-                </a>
+                </Link>
             </div>
             <button
                 className={`flex items-center gap-1.5 py-2 px-3.5 rounded-[10px] border-[1.5px] text-sm font-medium cursor-pointer transition-all duration-200 whitespace-nowrap shrink-0 ${isBookmarked ? 'bg-amber-500/15 border-amber-500 text-amber-400 hover:bg-amber-500/25 hover:text-amber-200' : 'border-indigo-500/50 bg-transparent text-indigo-400 hover:bg-indigo-500/15 hover:border-indigo-400 hover:text-indigo-300'}`}

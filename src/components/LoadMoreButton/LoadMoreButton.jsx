@@ -11,7 +11,7 @@ const LoadMoreButton = ({ onLoadMore, loadingMore, hasMore }) => {
     return (
         <div className="flex justify-center pt-6 pb-2">
             <button
-                className="group flex items-center gap-2 py-3 px-8 bg-gradient-to-br from-indigo-500/15 to-violet-500/15 border-[1.5px] border-indigo-500/40 rounded-xl text-indigo-400 text-sm font-semibold tracking-[0.02em] transition-all duration-200 hover:not(:disabled):from-indigo-500/30 hover:not(:disabled):to-violet-500/30 hover:not(:disabled):border-indigo-400 hover:not(:disabled):text-indigo-300 hover:not(:disabled):-translate-y-[1px] hover:not(:disabled):shadow-[0_4px_16px_rgba(99,102,241,0.25)] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group flex items-center gap-2 py-3 px-8 bg-gradient-to-br from-indigo-500/15 to-violet-500/15 border-[1.5px] border-indigo-500/40 rounded-xl text-indigo-400 text-sm font-semibold disabled:cursor-not-allowed"
                 onClick={onLoadMore}
                 disabled={loadingMore}
                 aria-label="Load more users"

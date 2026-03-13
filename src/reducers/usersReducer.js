@@ -1,4 +1,4 @@
-import { fetchUsersApi } from 'services/githubApi';
+import { fetchUsersApi, fetchUserProfileApi } from 'services/githubApi';
 
 // Action Types
 export const USERS_ACTION_TYPES = {
@@ -10,6 +10,9 @@ export const USERS_ACTION_TYPES = {
     LOAD_MORE_FAILURE: 'users/loadMoreFailure',
     TOGGLE_BOOKMARK: 'users/toggleBookmark',
     RESET_USERS: 'users/resetUsers',
+    FETCH_USER_PROFILE_REQUEST: 'users/fetchUserProfileRequest',
+    FETCH_USER_PROFILE_SUCCESS: 'users/fetchUserProfileSuccess',
+    FETCH_USER_PROFILE_FAILURE: 'users/fetchUserProfileFailure',
 };
 
 // localStorage helpers
@@ -41,6 +44,9 @@ const initialState = {
     error: null,
     since: 0,          // last user id for pagination
     hasMore: true,
+    userProfile: null,
+    profileLoading: false,
+    profileError: null,
 };
 
 // Reducer
@@ -93,6 +99,15 @@ const usersReducer = (state = initialState, action) => {
         case USERS_ACTION_TYPES.RESET_USERS:
             return { ...state, users: [], since: 0, hasMore: true };
 
+        case USERS_ACTION_TYPES.FETCH_USER_PROFILE_REQUEST:
+            return { ...state, profileLoading: true, profileError: null };
+
+        case USERS_ACTION_TYPES.FETCH_USER_PROFILE_SUCCESS:
+            return { ...state, profileLoading: false, userProfile: action.payload };
+
+        case USERS_ACTION_TYPES.FETCH_USER_PROFILE_FAILURE:
+            return { ...state, profileLoading: false, profileError: action.payload };
+
         default:
             return state;
     }
@@ -142,6 +157,22 @@ export const toggleBookmark = (user) => ({
 
 export const resetUsers = () => ({ type: USERS_ACTION_TYPES.RESET_USERS });
 
+export const fetchUserProfile = (username) => async (dispatch) => {
+    dispatch({ type: USERS_ACTION_TYPES.FETCH_USER_PROFILE_REQUEST });
+    try {
+        const response = await fetchUserProfileApi(username);
+        dispatch({
+            type: USERS_ACTION_TYPES.FETCH_USER_PROFILE_SUCCESS,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: USERS_ACTION_TYPES.FETCH_USER_PROFILE_FAILURE,
+            payload: error.response?.data?.message || error.message,
+        });
+    }
+};
+
 // Selectors
 export const selectUsers = (state) => state.users.users;
 export const selectBookmarkedUsers = (state) => state.users.bookmarkedUsers;
@@ -152,5 +183,8 @@ export const selectSince = (state) => state.users.since;
 export const selectHasMore = (state) => state.users.hasMore;
 export const selectIsBookmarked = (userId) => (state) =>
     state.users.bookmarkedUsers.some((u) => u.id === userId);
+export const selectUserProfile = (state) => state.users.userProfile;
+export const selectProfileLoading = (state) => state.users.profileLoading;
+export const selectProfileError = (state) => state.users.profileError;
 
 export default usersReducer;
