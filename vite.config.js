@@ -22,6 +22,9 @@ export default defineConfig({
     // this is for the getting the env variable from the .env
     'process.env': dotenv.config({ path: join(__dirname, '.env') }).parsed || {},
   },
+  build: {
+    outDir: 'dist'
+  },
   server: {
     port: 5173,
   },
